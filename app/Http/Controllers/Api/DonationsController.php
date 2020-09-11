@@ -36,7 +36,7 @@ class DonationsController extends Controller
     }
     public function update(Request $request){
         $donation=Donation::find($request->id);
-        $donation->user_id=$request->user_id;
+        //$donation->user_id=$request->user_id;
         //Check if user is editing his own donation
         if(Auth::user()->id != $donation->user_id){
             return response()->json([
@@ -65,7 +65,7 @@ class DonationsController extends Controller
 
     public function delete(Request $request){
         $donation=Donation::find($request->id);
-        $donation->user_id=$request->user_id;
+       // $donation->user_id=$request->user_id;
         //Check if user is editing his own donation
         if(Auth::user()->id != $donation->user_id){
             return response()->json([
@@ -113,6 +113,18 @@ class DonationsController extends Controller
         return response()->json([
             'success'=>true,
             'donations'=>$donations,
+            'user'=>$user
+        ]);
+    }
+    public function myRequests(){
+        $donations=Donation::has($donation->requests,'>=',1)->orderBy('id','desc')->get();
+        $user=Auth::user();
+        foreach($donations as $donation){
+            $donation['requestCount']=count($donation->requests);
+        }
+        return response()->json([
+            'success'=>true,
+           'donations'=>$donations,
             'user'=>$user
         ]);
     }

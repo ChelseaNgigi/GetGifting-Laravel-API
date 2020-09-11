@@ -32,4 +32,4 @@ Route::get('donations/my_donations','Api\DonationsController@myDonations')->midd
 
 //requests
 Route::post('donations/request','Api\RequestsController@request')->middleware('jwtAuth');
-
+Route::get('donations/my_requests','Api\DonationsController@myRequests')->middleware('jwtAuth');
